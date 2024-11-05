@@ -1,0 +1,31 @@
+checkpoint: "weights/sam2_hiera_tiny.pt"
+model: "hfunet_hiera_tiny"
+
+# model: PAN
+wandb_project_name: "jsrt"
+deep_supervision: True
+dataset:
+  name: jsrt
+  root: ./datasets/JSRT/JSRTPreprocessed
+  image_size: 1024
+  split: 0.028027027 # training split
+  seed: 42
+  batch_size: 1
+  num_workers: 2
+  num_classes: 2
+
+max_epochs: 500
+save_path: checkpoints/hfunet_tiny_vit.1024/JSRT4
+
+# segmentation_models.pytorch specific configs
+encoder_name: "resnext50_32x4d"
+encoder_weights: "imagenet"
+classes: 1
+in_channels: 3
+
+
+test_config:
+  name: jsrt_test_dataset
+  root: ./datasets/JSRT/JSRTPreprocessed
+  image_size: 512
+  checkpoint_path:  checkpoints/hfunet_tiny_vit.1024/JSRT4/last.ckpt

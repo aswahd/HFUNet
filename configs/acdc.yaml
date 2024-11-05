@@ -1,0 +1,34 @@
+checkpoint: "weights/sam2_hiera_tiny.pt"
+model: "hfunet_hiera_tiny"
+# checkpoint: "weights/mobile_sam.pt"
+# model: "hfunet_tiny_vit"
+# model: DeepLabV3Plus 
+# model: PAN
+# model: unet_plusplus
+wandb_project_name: "acdc"
+deep_supervision: true
+dataset:
+  name: acdc
+  root: ./ACDC/ACDCPreprocessed
+  image_size: 1024
+  split:  0.0526 # training split
+  seed: 42
+  batch_size: 2
+  num_workers: 4
+  num_classes: 4
+
+max_epochs: 800
+save_path: checkpoints/hfunet_hiera_tiny.1024/ACDC100
+
+
+# segmentation_models.pytorch specific configs
+encoder_name: "resnext50_32x4d"
+encoder_weights: "imagenet"
+in_channels: 3
+
+
+test_config:
+  name: acdc_test
+  root: ./ACDC/ACDCPreprocessed
+  image_size: 512
+  checkpoint_path: checkpoints/hfunet_hiera_tiny.1024/ACDC100/last.pth

@@ -1,0 +1,35 @@
+checkpoint: "weights/sam2_hiera_tiny.pt"
+model: "hfunet_hiera_tiny"
+
+# checkpoint: "weights/mobile_sam.pt"
+# model: "hfunet_tiny_vit"
+
+# Baseline models
+# model: unet
+wandb_project_name: "flare22"
+deep_supervision: true
+dataset:
+  name: flare22
+  root: ./datasets/FLARE22
+  image_size: 1024
+  split: 0.1405 # training split
+  seed: 42
+  batch_size: 4
+  num_workers: 4
+  num_classes: 13 # including background
+  label_to_class_id: 
+    13: 12  # 12 is empty
+
+max_epochs: 1000
+save_path: checkpoints/hfunet_hiera_tiny.1024/FLARE22.200
+
+# segmentation_models.pytorch specific configs
+encoder_name: "resnext50_32x4d"
+encoder_weights: "imagenet"
+in_channels: 3
+
+test_config:
+  name: flare22_test
+  root:  ./datasets/FLARE22
+  image_size: 1024
+  checkpoint_path: checkpoints/hfunet_tiny_vit.256/FLARE22.200/model_epoch=239-val_dice=0.82.ckpt
